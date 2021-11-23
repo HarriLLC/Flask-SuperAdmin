@@ -31,8 +31,8 @@ setup(
     install_requires=[
         'Flask>=2.0',
         'Flask-WTF>=1.0',
-        'WTForms-SQLAlchemy>=1.0',
-        'Flask-BabelEx>=1.0'
+        'WTForms-SQLAlchemy>=0.3',
+        'Flask-BabelEx>=0.9'
     ],
     tests_require=[
         'nose>=1.0',
