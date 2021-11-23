@@ -6,10 +6,10 @@ from sqlalchemy import Column
 from sqlalchemy.orm.exc import NoResultFound
 
 from wtforms import Form, ValidationError, fields, validators
-from wtforms.ext.sqlalchemy.orm import converts, ModelConverter, model_form as original_model_form
-from wtforms.ext.sqlalchemy.fields import QuerySelectField, QuerySelectMultipleField
+from wtforms_sqlalchemy.orm import converts, ModelConverter, model_form as original_model_form
+from wtforms_sqlalchemy.fields import QuerySelectField, QuerySelectMultipleField
 
-from flask.ext.superadmin import form
+from flask_superadmin import form
 
 
 class Unique(object):

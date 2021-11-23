@@ -3,7 +3,7 @@ Tools for generating forms based on MongoEngine Document schemas.
 """
 
 import inspect
-from werkzeug import secure_filename
+from werkzeug.utils import secure_filename
 from wtforms import Form, validators, fields as f
 
 from .fields import ModelSelectField, ModelSelectMultipleField, ListField
@@ -97,24 +97,24 @@ class ModelConverter(object):
             kwargs['validators'].append(validators.Regexp(regex=field.regex))
         self._string_common(model, field, kwargs)
         if field.max_length:
-            return f.TextField(**kwargs)
+            return f.StringField(**kwargs)
         return f.TextAreaField(**kwargs)
 
     @converts('DynamicField')
     def conv_Dynamic(self, model, field, kwargs):
-        return f.TextField(**kwargs)
+        return f.StringField(**kwargs)
 
     @converts('URLField')
     def conv_URL(self, model, field, kwargs):
         kwargs['validators'].append(validators.URL())
         self._string_common(model, field, kwargs)
-        return f.TextField(**kwargs)
+        return f.StringField(**kwargs)
 
     @converts('EmailField')
     def conv_Email(self, model, field, kwargs):
         kwargs['validators'].append(validators.Email())
         self._string_common(model, field, kwargs)
-        return f.TextField(**kwargs)
+        return f.StringField(**kwargs)
 
     @converts('IntField')
     def conv_Int(self, model, field, kwargs):

@@ -1,16 +1,16 @@
 import time
 import datetime
-
-from flask.ext import wtf
+import flask_wtf
 from wtforms import fields, widgets
-
 from flask_superadmin.babel import gettext
-from flask import request
+from markupsafe import Markup
 
-class BaseForm(wtf.Form):
+
+class BaseForm(flask_wtf.Form):
     """
         Customized form class.
     """
+
     def __init__(self, formdata=None, obj=None, prefix='', **kwargs):
         if formdata:
             super(BaseForm, self).__init__(formdata, obj, prefix, **kwargs)
@@ -55,8 +55,8 @@ class TimeField(fields.Field):
         super(TimeField, self).__init__(label, validators, **kwargs)
 
         self.formats = formats or ('%H:%M:%S', '%H:%M',
-                                  '%I:%M:%S%p', '%I:%M%p',
-                                  '%I:%M:%S %p', '%I:%M %p')
+                                   '%I:%M:%S%p', '%I:%M%p',
+                                   '%I:%M:%S %p', '%I:%M %p')
 
     def _value(self):
         if self.raw_data:
@@ -87,6 +87,7 @@ class ChosenSelectWidget(widgets.Select):
 
         You must include chosen.js and form.js for styling to work.
     """
+
     def __call__(self, field, **kwargs):
         if getattr(field, 'allow_blank', False) and not self.multiple:
             kwargs['data-role'] = 'chosenblank'
@@ -104,25 +105,31 @@ class ChosenSelectField(fields.SelectField):
     """
     widget = ChosenSelectWidget
 
+
 class FileFieldWidget(object):
     # widget_file = widgets.FileInput()
     widget_checkbox = widgets.CheckboxInput()
+
     def __call__(self, field, **kwargs):
-        from cgi import escape
+        from html import escape
         input_file = '<input %s>' % widgets.html_params(name=field.name, type='file')
-        return widgets.HTMLString('%s<br />Current: %s<br />%s <label for="%s">Clear file</label>'%(input_file, escape(field._value()), self.widget_checkbox(field._clear), field._clear.id))
+        return Markup('%s<br />Current: %s<br />%s <label for="%s">Clear file</label>' % (
+        input_file, escape(field._value()), self.widget_checkbox(field._clear), field._clear.id))
+
 
 class FileField(fields.FileField):
     widget = FileFieldWidget()
-    def __init__(self,*args,**kwargs):
+
+    def __init__(self, *args, **kwargs):
         self.clearable = kwargs.pop('clearable', True)
         super(FileField, self).__init__(*args, **kwargs)
         self._prefix = kwargs.get('_prefix', '')
         self.clear_field = fields.BooleanField(default=False)
         if self.clearable:
-            self._clear_name = '%s-clear'%self.short_name
-            self._clear_id = '%s-clear'%self.id
-            self._clear = self.clear_field.bind(form=None, name=self._clear_name, prefix=self._prefix, id=self._clear_id)
+            self._clear_name = '%s-clear' % self.short_name
+            self._clear_id = '%s-clear' % self.id
+            self._clear = self.clear_field.bind(form=None, name=self._clear_name, prefix=self._prefix,
+                                                id=self._clear_id)
 
     def process(self, formdata, data=fields._unset_value):
         super(FileField, self).process(formdata, data)
@@ -152,6 +159,7 @@ class DatePickerWidget(widgets.TextInput):
 
         You must include bootstrap-datepicker.js and form.js for styling to work.
     """
+
     def __call__(self, field, **kwargs):
         kwargs['data-role'] = 'datepicker'
         return super(DatePickerWidget, self).__call__(field, **kwargs)
@@ -163,18 +171,7 @@ class DateTimePickerWidget(widgets.TextInput):
 
         You must include bootstrap-datepicker.js and form.js for styling to work.
     """
+
     def __call__(self, field, **kwargs):
         kwargs['data-role'] = 'datetimepicker'
         return super(DateTimePickerWidget, self).__call__(field, **kwargs)
-
-# def format_form(form):
-#     for field in form:
-#         if isinstance(field,fields.SelectField):
-#             field.widget = ChosenSelectWidget(multiple=field.widget.multiple)
-#         elif isinstance(field, fields.DateTimeField):
-#             field.widget = DatePickerWidget()
-#         elif isinstance(field, fields.FormField):
-#             format_form(field.form)
-#     return form
-#         # elif isinstance(field, fields.FieldList):
-#         #     for f in field.entries: format_form

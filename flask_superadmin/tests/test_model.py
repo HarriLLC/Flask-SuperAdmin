@@ -1,13 +1,9 @@
 from nose.tools import eq_, ok_
-
+import flask_wtf
 import wtforms
-
 from flask import Flask
-
 from flask_superadmin import Admin
 from flask_superadmin.model import base
-
-from flask.ext import wtf
 
 
 class Model(object):
@@ -20,14 +16,13 @@ class Model(object):
     DoesNotExist = 'dummy'
 
 
-class Form(wtf.Form):
-    col1 = wtforms.TextField()
-    col2 = wtforms.TextField()
-    col3 = wtforms.TextField()
+class Form(flask_wtf.Form):
+    col1 = wtforms.StringField()
+    col2 = wtforms.StringField()
+    col3 = wtforms.StringField()
 
 
 class MockModelView(base.BaseModelAdmin):
-
     fields = ('col1', 'col2', 'col3')
 
     def __init__(self, model, name=None, category=None, endpoint=None,
@@ -64,6 +59,7 @@ class MockModelView(base.BaseModelAdmin):
     def get_model_form(self):
         def fake_model_form(*args, **kwargs):
             return Form
+
         return fake_model_form
 
     def get_converter(self):
@@ -294,4 +290,3 @@ def test_search_fields():
 
     rv = client.get('/admin/model/')
     ok_('<div class="search">' in rv.data)
-

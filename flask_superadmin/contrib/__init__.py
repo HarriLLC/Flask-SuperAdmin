@@ -1,5 +1,3 @@
-from flask_superadmin.model import ModelAdmin
-
 
 def print_kwargs(d):
     return ', '.join(['%s=...' % k for k in list(d.keys())])

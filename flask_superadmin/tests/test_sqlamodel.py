@@ -1,10 +1,7 @@
 from nose.tools import eq_, ok_, raises
-
 import wtforms
-
 from flask import Flask
-
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import InvalidRequestError
 from flask_superadmin import Admin
 from flask_superadmin.model.backends.sqlalchemy.view import ModelAdmin
@@ -76,8 +73,8 @@ def test_model():
     # Verify form
     with app.test_request_context():
         Form = view.get_form()
-        ok_(isinstance(Form()._fields['test1'], wtforms.TextField))
-        ok_(isinstance(Form()._fields['test2'], wtforms.TextField))
+        ok_(isinstance(Form()._fields['test1'], wtforms.StringField))
+        ok_(isinstance(Form()._fields['test2'], wtforms.StringField))
         ok_(isinstance(Form()._fields['test3'], wtforms.TextAreaField))
         ok_(isinstance(Form()._fields['test4'], wtforms.TextAreaField))
 
@@ -275,7 +272,7 @@ def test_non_int_pk():
     eq_(resp.status_code, 200)
 
     resp = client.post('/admin/modelview/new/',
-                     data=dict(id='test1', test='test2'))
+                       data=dict(id='test1', test='test2'))
     eq_(resp.status_code, 302)
 
     resp = client.get('/admin/modelview/')
@@ -285,6 +282,7 @@ def test_non_int_pk():
     resp = client.get('/admin/modelview/edit/?id=test1')
     eq_(resp.status_code, 200)
     ok_('test2' in resp.data)
+
 
 def test_reference_linking():
     app, db, admin = setup()
@@ -343,4 +341,3 @@ def test_reference_linking():
     resp = client.get('/admin/person/%s/' % person.id)
     ok_('<input class="" id="name" name="name" type="text" value="Stan">' in resp.data)
     ok_(dog_link in resp.data)
-

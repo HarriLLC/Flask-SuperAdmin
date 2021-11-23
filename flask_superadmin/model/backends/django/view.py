@@ -6,6 +6,7 @@ from django.db import models
 import operator
 from functools import reduce
 
+
 class ModelAdmin(BaseModelAdmin):
     @staticmethod
     def model_detect(model):

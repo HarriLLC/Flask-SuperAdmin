@@ -39,7 +39,7 @@ class Post(models.Model):
     class Meta:
         app_label = 'posts'
     title = models.CharField(max_length=255)
-    text = models.TextField()
+    text = models.StringField()
     date = models.DateField()
     user = models.ForeignKey(User)
     def __unicode__(self):

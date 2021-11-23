@@ -1,8 +1,10 @@
+import flask_superadmin
+import flask_login
+import flask_wtf
+import wtforms
 from flask import Flask, url_for, redirect, render_template, request
-from flask.ext.sqlalchemy import SQLAlchemy
-
-from flask.ext import superadmin, login, wtf
-from flask.ext.superadmin.contrib import sqlamodel
+from flask_sqlalchemy import SQLAlchemy
+from flask_superadmin.contrib import sqlamodel
 
 # Create application
 app = Flask(__name__)
@@ -43,36 +45,36 @@ class User(db.Model):
 
 
 # Define login and registration forms (for flask-login)
-class LoginForm(wtf.Form):
-    login = wtf.TextField(validators=[wtf.required()])
-    password = wtf.PasswordField(validators=[wtf.required()])
+class LoginForm(flask_wtf.Form):
+    login = wtforms.StringField(validators=[wtforms.validators.InputRequired()])
+    password = wtforms.PasswordField(validators=[wtforms.validators.InputRequired()])
 
     def validate_login(self, field):
         user = self.get_user()
 
         if user is None:
-            raise wtf.ValidationError('Invalid user')
+            raise wtforms.ValidationError('Invalid user')
 
         if user.password != self.password.data:
-            raise wtf.ValidationError('Invalid password')
+            raise wtforms.ValidationError('Invalid password')
 
     def get_user(self):
         return db.session.query(User).filter_by(login=self.login.data).first()
 
 
-class RegistrationForm(wtf.Form):
-    login = wtf.TextField(validators=[wtf.required()])
-    email = wtf.TextField()
-    password = wtf.PasswordField(validators=[wtf.required()])
+class RegistrationForm(flask_wtf.Form):
+    login = wtforms.StringField(validators=[wtforms.validators.InputRequired()])
+    email = wtforms.StringField()
+    password = wtforms.PasswordField(validators=[wtforms.validators.InputRequired()])
 
     def validate_login(self, field):
         if db.session.query(User).filter_by(login=self.login.data).count() > 0:
-            raise wtf.ValidationError('Duplicate username')
+            raise wtforms.ValidationError('Duplicate username')
 
 
 # Initialize flask-login
 def init_login():
-    login_manager = login.LoginManager()
+    login_manager = flask_login.LoginManager()
     login_manager.setup_app(app)
 
     # Create user loader function
@@ -84,19 +86,19 @@ def init_login():
 # Create customized model view class
 class MyModelView(sqlamodel.ModelView):
     def is_accessible(self):
-        return login.current_user.is_authenticated()
+        return flask_login.current_user.is_authenticated()
 
 
 # Create customized index view class
-class MyAdminIndexView(superadmin.AdminIndexView):
+class MyAdminIndexView(flask_superadmin.AdminIndexView):
     def is_accessible(self):
-        return login.current_user.is_authenticated()
+        return flask_login.current_user.is_authenticated()
 
 
 # Flask views
 @app.route('/')
 def index():
-    return render_template('index.html', user=login.current_user)
+    return render_template('index.html', user=flask_login.current_user)
 
 
 @app.route('/login/', methods=('GET', 'POST'))
@@ -104,7 +106,7 @@ def login_view():
     form = LoginForm(request.form)
     if form.validate_on_submit():
         user = form.get_user()
-        login.login_user(user)
+        flask_login.login_user(user)
         return redirect(url_for('index'))
 
     return render_template('form.html', form=form)
@@ -121,7 +123,7 @@ def register_view():
         db.session.add(user)
         db.session.commit()
 
-        login.login_user(user)
+        flask_login.login_user(user)
         return redirect(url_for('index'))
 
     return render_template('form.html', form=form)
@@ -129,7 +131,7 @@ def register_view():
 
 @app.route('/logout/')
 def logout_view():
-    login.logout_user()
+    flask_login.logout_user()
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
@@ -137,7 +139,7 @@ if __name__ == '__main__':
     init_login()
 
     # Create admin
-    admin = superadmin.Admin(app, 'Auth', index_view=MyAdminIndexView())
+    admin = flask_superadmin.Admin(app, 'Auth', index_view=MyAdminIndexView())
 
     # Add view
     admin.add_view(MyModelView(User, db.session))

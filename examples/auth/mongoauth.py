@@ -42,7 +42,7 @@ class User(Document):
 
 # Define login and registration forms (for flask-login)
 class LoginForm(wtf.Form):
-    login = wtf.TextField(validators=[wtf.required()])
+    login = wtf.StringField(validators=[wtf.required()])
     password = wtf.PasswordField(validators=[wtf.required()])
 
     def validate_login(self, field):
@@ -59,8 +59,8 @@ class LoginForm(wtf.Form):
 
 
 class RegistrationForm(wtf.Form):
-    login = wtf.TextField(validators=[wtf.required()])
-    email = wtf.TextField()
+    login = wtf.StringField(validators=[wtf.required()])
+    email = wtf.StringField()
     password = wtf.PasswordField(validators=[wtf.required()])
 
     def validate_login(self, field):

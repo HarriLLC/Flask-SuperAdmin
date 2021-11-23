@@ -9,8 +9,7 @@ from wtforms.validators import ValidationError
 from wtforms.widgets import TextInput
 
 __all__ = (
-    'ModelSelectField', 'ModelSelectMultipleField', 'QuerySetSelectField',
-    'ListField',
+    'ModelSelectField', 'ModelSelectMultipleField', 'ListField',
 )
 
 

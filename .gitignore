@@ -16,3 +16,7 @@ venv
 dist/*
 *.sqlite
 *.mo
+# Dev clutter
+.idea
+.svn
+tmp

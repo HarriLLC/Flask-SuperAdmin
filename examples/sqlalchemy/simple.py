@@ -1,8 +1,6 @@
 from flask import Flask
-from flask.ext.sqlalchemy import SQLAlchemy
-
-from flask.ext import wtf
-from flask.ext.superadmin import Admin, model
+from flask_sqlalchemy import SQLAlchemy
+from flask_superadmin import Admin
 
 # Create application
 app = Flask(__name__)

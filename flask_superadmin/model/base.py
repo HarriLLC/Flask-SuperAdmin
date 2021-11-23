@@ -132,7 +132,7 @@ class BaseModelAdmin(BaseView):
 
     def get_reference(self, column_value):
         for model, model_view in self.admin._models:
-            if type(column_value) == model:
+            if isinstance(column_value, model):
                 return '%s/%s/%s/' % (self.admin.url,
                                       model_view.endpoint,
                                       self.get_pk(column_value))

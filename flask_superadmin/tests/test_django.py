@@ -66,7 +66,7 @@ def test_list():
     # Verify form
     with app.test_request_context():
         Form = view.get_form()
-        ok_(isinstance(Form()._fields['name'], wtforms.TextField))
+        ok_(isinstance(Form()._fields['name'], wtforms.StringField))
         ok_(isinstance(Form()._fields['age'], wtforms.IntegerField))
 
     # Make some test clients

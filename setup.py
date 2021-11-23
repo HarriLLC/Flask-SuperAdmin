@@ -1,5 +1,5 @@
 # Fix for older setuptools
-import multiprocessing, logging, os
+import os
 
 from setuptools import setup, find_packages
 
@@ -29,8 +29,10 @@ setup(
     zip_safe=False,
     platforms='any',
     install_requires=[
-        'Flask>=0.7',
-        'Flask-WTF>=0.9'
+        'Flask>=2.0',
+        'Flask-WTF>=1.0',
+        'WTForms-SQLAlchemy>=1.0',
+        'Flask-BabelEx>=1.0'
     ],
     tests_require=[
         'nose>=1.0',
