@@ -88,7 +88,7 @@ class AdminModelConverter(ModelConverter):
             if local_column.nullable:
                 kwargs['validators'].append(validators.Optional())
             elif prop.direction.name not in ('MANYTOMANY', 'ONETOMANY'):
-                kwargs['validators'].append(validators.Required())
+                kwargs['validators'].append(validators.InputRequired())
 
             # Override field type if necessary
             override = self._get_field_override(prop.key)
@@ -149,7 +149,7 @@ class AdminModelConverter(ModelConverter):
                 if column.nullable:
                     kwargs['validators'].append(validators.Optional())
                 else:
-                    kwargs['validators'].append(validators.Required())
+                    kwargs['validators'].append(validators.InputRequired())
 
             # Apply label
             kwargs['label'] = self._get_label(prop.key, kwargs)
