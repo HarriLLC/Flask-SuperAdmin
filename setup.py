@@ -37,9 +37,7 @@ setup(
     tests_require=[
         'nose>=1.0',
         'Flask',
-        'flask-sqlalchemy',
-        'django',
-        'mongoengine'
+        'flask-sqlalchemy'
     ],
     classifiers=[
         'Development Status :: 3 - Alpha',
