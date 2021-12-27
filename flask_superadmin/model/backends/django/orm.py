@@ -3,7 +3,7 @@ Tools for generating forms based on Django Model schemas.
 """
 
 from wtforms import fields as f
-from wtforms import Form
+from flask_wtf import Form
 from wtforms import validators
 from wtforms_django.fields import ModelSelectField
 from flask_superadmin import form

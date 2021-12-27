@@ -6,14 +6,14 @@ from flask_superadmin.babel import gettext
 from markupsafe import Markup
 
 
-class BaseForm(flask_wtf.Form):
+class BaseForm(flask_wtf.FlaskForm):
     """
         Customized form class.
     """
 
     def __init__(self, formdata=None, obj=None, prefix='', **kwargs):
         if formdata:
-            super(BaseForm, self).__init__(formdata, obj, prefix, **kwargs)
+            super(BaseForm, self).__init__(formdata, obj=obj, prefix=prefix, **kwargs)
         else:
             super(BaseForm, self).__init__(obj=obj, prefix=prefix, **kwargs)
 

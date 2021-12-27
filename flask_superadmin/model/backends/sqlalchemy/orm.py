@@ -4,8 +4,8 @@ Tools for generating forms based on SQLAlchemy Model schemas.
 
 from sqlalchemy import Column
 from sqlalchemy.orm.exc import NoResultFound
-
-from wtforms import Form, ValidationError, fields, validators
+from flask_wtf import Form
+from wtforms import ValidationError, fields, validators
 from wtforms_sqlalchemy.orm import converts, ModelConverter, model_form as original_model_form
 from wtforms_sqlalchemy.fields import QuerySelectField, QuerySelectMultipleField
 
