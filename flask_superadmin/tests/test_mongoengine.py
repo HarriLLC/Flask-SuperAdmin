@@ -22,7 +22,7 @@ class CustomModelView(ModelAdmin):
 def setup():
     connect('superadmin_test')
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = '1'
+    app.config['SECRET_KEY'] = ''
     app.config['WTF_CSRF_ENABLED'] = False
 
     admin = Admin(app)
