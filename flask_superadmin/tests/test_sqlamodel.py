@@ -46,7 +46,7 @@ def create_models(db):
 
 def setup():
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = '1'
+    app.config['SECRET_KEY'] = ''
     app.config['WTF_CSRF_ENABLED'] = False
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'
 
