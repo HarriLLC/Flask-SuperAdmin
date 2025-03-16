@@ -57,8 +57,6 @@ class ModelConverter(object):
             # Hacky but necessary, since validators.Required doesn't handle 0 properly
             if isinstance(field, IntField) or isinstance(field, FloatField):
                 kwargs['validators'].append(validators.InputRequired())
-            else:
-                kwargs['validators'].append(validators.InputRequired())
         else:
             kwargs['validators'].append(validators.Optional())
 

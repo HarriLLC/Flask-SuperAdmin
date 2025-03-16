@@ -162,13 +162,13 @@ class BaseModelAdmin(BaseView):
         return ret_vals
 
     def get_converter(self):
-        raise NotImplemented()
+        raise NotImplementedError()
 
     def get_model_form(self):
         """ Returns the model form, should get overridden in backend-specific
         view.
         """
-        raise NotImplemented()
+        raise NotImplementedError()
 
     def get_form(self):
         model_form = self.get_model_form()
@@ -187,19 +187,19 @@ class BaseModelAdmin(BaseView):
         return self.get_form()
 
     def get_objects(self, *pks):
-        raise NotImplemented()
+        raise NotImplementedError()
 
     def get_object(self, pk):
-        raise NotImplemented()
+        raise NotImplementedError()
 
     def get_pk(self, instance):
         return
 
     def save_model(self, instance, form, adding=False):
-        raise NotImplemented()
+        raise NotImplementedError()
 
     def delete_models(self, *pks):
-        raise NotImplemented()
+        raise NotImplementedError()
 
     def is_sortable(self, column):
         return False
@@ -208,13 +208,13 @@ class BaseModelAdmin(BaseView):
         return prettify(field)
 
     def construct_search(self, field_name):
-        raise NotImplemented()
+        raise NotImplementedError()
 
     def get_queryset(self):
-        raise NotImplemented()
+        raise NotImplementedError()
 
     def get_list(self):
-        raise NotImplemented()
+        raise NotImplementedError()
 
     def get_url_name(self, name):
         URLS = {

@@ -64,7 +64,7 @@ if __name__ == '__main__':
     # Create tables in database if not exists
     try:
         install_models(User,Post)
-    except:
+    except Exception:  # noqa
         pass
 
     # Start app
