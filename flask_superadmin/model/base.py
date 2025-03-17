@@ -213,7 +213,7 @@ class BaseModelAdmin(BaseView):
     def get_queryset(self):
         raise NotImplementedError()
 
-    def get_list(self):
+    def get_list(self, page=0, sort=None, sort_desc=None, execute=False, search_query=None):
         raise NotImplementedError()
 
     def get_url_name(self, name):
